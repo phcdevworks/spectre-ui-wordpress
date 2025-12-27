@@ -1,0 +1,27 @@
+{
+  "name": "spectre-ui-wordpress",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "build": "node scripts/sync-spectre-ui-css.mjs && wp-scripts build",
+    "start": "node scripts/sync-spectre-ui-css.mjs && wp-scripts start",
+    "lint": "wp-scripts lint"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/phcdevworks/spectre-ui-wordpress.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/phcdevworks/spectre-ui-wordpress/issues"
+  },
+  "homepage": "https://github.com/phcdevworks/spectre-ui-wordpress#readme",
+  "description": "",
+  "dependencies": {
+    "@phcdevworks/spectre-ui": "^0.3.0"
+  },
+  "devDependencies": {
+    "@wordpress/scripts": "^27.7.0"
+  }
+}
