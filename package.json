@@ -1,6 +1,6 @@
 {
   "name": "spectre-ui-wordpress",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "main": "index.js",
   "scripts": {
     "build": "node scripts/sync-spectre-ui-css.mjs && wp-scripts build",
