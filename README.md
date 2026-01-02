@@ -6,17 +6,35 @@ WordPress integration layer for the Spectre design system.
 
 ## Overview
 
-`spectre-ui-wordpress` provides seamless integration of [@phcdevworks/spectre-ui](https://github.com/phcdevworks/spectre-ui)'s design system into WordPress. This plugin automatically syncs and enqueues Spectre UI CSS for both the frontend and block editor, providing a foundation for Spectre-powered themes and blocks.
+`spectre-ui-wordpress` is the official WordPress adapter for the Spectre design system.
 
-- ✅ Automatically enqueues Spectre UI CSS on frontend and in Gutenberg editor
-- ✅ Resolves import-free CSS bundle for WordPress compatibility
-- ✅ Does not reimplement design logic—consumes all styling from `@phcdevworks/spectre-ui`
-- ✅ Cache-busted versioning via `filemtime()`
-- ✅ Foundation for future Gutenberg blocks using Spectre UI classes
+This plugin loads the compiled Spectre UI CSS on the frontend only, making Spectre's tokens, components, and utilities available to WordPress themes, templates, and companion plugins — without requiring Node tooling or runtime build steps in WordPress.
+
+**This plugin does not define blocks, editor styles, or design logic.**
+It exists solely to bridge WordPress with [@phcdevworks/spectre-ui](https://github.com/phcdevworks/spectre-ui) in a safe, predictable way.
+
+### What This Plugin Does
+
+- ✅ Loads a compiled, import-free Spectre UI CSS bundle on the frontend
+- ✅ Uses the canonical styles from `@phcdevworks/spectre-ui`
+- ✅ Follows WordPress runtime constraints (no Node, no `@import`)
+- ✅ Cache-busted via `filemtime()`
+- ✅ Provides a stable foundation for Spectre-powered themes and plugins
+
+### What This Plugin Does NOT Do
+
+- ❌ Does not style the WordPress admin UI
+- ❌ Does not style the Gutenberg editor
+- ❌ Does not provide blocks (see Spectre UI Blocks)
+- ❌ Does not define or override design values
+- ❌ Does not run Tailwind or PostCSS in WordPress
+- ❌ Does not load fonts
+
+**This separation is intentional and enforced.**
 
 ## Installation
 
-### Option 1: Manual Installation (Development)
+### Manual Installation (Development)
 
 1. Clone the repository:
 
@@ -25,222 +43,146 @@ git clone https://github.com/phcdevworks/spectre-ui-wordpress.git
 cd spectre-ui-wordpress
 ```
 
-2. Install dependencies and build:
+2. Install dependencies and build assets:
 
 ```bash
 npm install
 npm run build
 ```
 
-3. Copy or symlink to your WordPress plugins directory:
+3. Symlink or copy into WordPress:
 
 ```bash
-# Symlink (recommended for development)
 ln -s $(pwd) /path/to/wordpress/wp-content/plugins/spectre-ui-wordpress
-
-# Or copy
+# or
 cp -r . /path/to/wordpress/wp-content/plugins/spectre-ui-wordpress
 ```
 
-4. Activate the plugin in WordPress Admin → Plugins
-
-### Option 2: Composer (Coming Soon)
-
-```bash
-composer require phcdevworks/spectre-ui-wordpress
-```
+4. Activate **Spectre UI WordPress** in WP Admin → Plugins
 
 ## Usage
 
-### 1. Activate the Plugin
+### Frontend Styling
 
-Once activated, Spectre UI WordPress automatically:
-- Enqueues `assets/spectre-ui.css` on the frontend via `wp_enqueue_scripts`
-- Loads the same CSS in the Gutenberg block editor via `enqueue_block_editor_assets`
-- Provides cache-busted versioning using the CSS file modification time
+Once activated, the plugin automatically enqueues:
 
-No additional configuration is required. All Spectre UI styles (tokens, base, components, utilities) are now available in your WordPress site.
+**`assets/spectre-ui.css`**
+Frontend only via `wp_enqueue_scripts`
 
-### 2. Use Spectre Classes in Your Theme
+All Spectre UI classes are now available in:
+- theme templates
+- custom PHP markup
+- custom blocks
+- page builder output
 
-Add Spectre UI classes to your theme templates:
+### Example (Theme Template)
 
 ```php
-<!-- Single post template -->
 <article class="sp-card sp-card--elevated">
   <h1><?php the_title(); ?></h1>
+
   <div class="sp-stack sp-stack--md">
     <?php the_content(); ?>
   </div>
-  <a href="<?php echo home_url(); ?>" class="sp-btn sp-btn--primary">
+
+  <a href="<?php echo esc_url( home_url() ); ?>" class="sp-btn sp-btn--primary">
     Back to Home
   </a>
 </article>
 ```
 
-### 3. Build Custom Blocks with Spectre Classes
+## CSS Availability
 
-Create Gutenberg blocks that leverage Spectre UI styling:
-
-```javascript
-// src/index.js
-import { registerBlockType } from '@wordpress/blocks';
-
-registerBlockType('spectre/button', {
-  title: 'Spectre Button',
-  icon: 'button',
-  category: 'design',
-  attributes: {
-    text: { type: 'string', default: 'Click me' },
-    variant: { type: 'string', default: 'primary' }
-  },
-  edit: ({ attributes, setAttributes }) => {
-    return (
-      <button className={`sp-btn sp-btn--${attributes.variant}`}>
-        {attributes.text}
-      </button>
-    );
-  },
-  save: ({ attributes }) => {
-    return (
-      <button className={`sp-btn sp-btn--${attributes.variant}`}>
-        {attributes.text}
-      </button>
-    );
-  }
-});
-```
-
-## Available CSS Classes
-
-All Spectre UI classes are available after plugin activation:
+All Spectre UI classes are available once the plugin is active, including:
 
 ### Buttons
 ```html
-<button class="sp-btn sp-btn--primary">Primary CTA</button>
+<button class="sp-btn sp-btn--primary">Primary</button>
 <button class="sp-btn sp-btn--secondary">Secondary</button>
-<button class="sp-btn sp-btn--ghost">Ghost Button</button>
-<button class="sp-btn sp-btn--danger">Destructive</button>
+<button class="sp-btn sp-btn--ghost">Ghost</button>
 ```
 
 ### Cards
 ```html
-<div class="sp-card sp-card--elevated">
-  <h2>Card Title</h2>
-  <p>Card content goes here.</p>
-</div>
-
-<div class="sp-card sp-card--outline">Bordered card</div>
-<div class="sp-card sp-card--ghost">Transparent card</div>
-```
-
-### Inputs
-```html
-<div class="sp-input-wrapper">
-  <label for="email" class="sp-input-label">Email</label>
-  <input type="email" id="email" class="sp-input sp-input--default" />
-</div>
-
-<div class="sp-input-wrapper sp-input-wrapper--error">
-  <label for="password" class="sp-input-label">Password</label>
-  <input type="password" id="password" class="sp-input sp-input--error" />
-  <span class="sp-input-error">This field is required</span>
-</div>
-```
-
-### Badges
-```html
-<span class="sp-badge sp-badge--primary">New</span>
-<span class="sp-badge sp-badge--success">Success</span>
-<span class="sp-badge sp-badge--warning">Warning</span>
-<span class="sp-badge sp-badge--danger">Danger</span>
+<div class="sp-card sp-card--elevated">Elevated</div>
+<div class="sp-card sp-card--outline">Outline</div>
+<div class="sp-card sp-card--ghost">Ghost</div>
 ```
 
 ### Utilities
 ```html
-<div class="sp-stack sp-stack--md">
-  <!-- Vertical spacing -->
-</div>
-
-<div class="sp-container">
-  <!-- Max-width container -->
-</div>
+<div class="sp-stack sp-stack--md"></div>
+<div class="sp-container"></div>
 ```
 
-## Development
+## Development Notes
 
-### Build Process
+### Build Pipeline
 
-The plugin uses a custom sync script to ensure WordPress receives an import-free CSS bundle:
+The plugin includes a build-time sync script that:
+
+1. Resolves the compiled CSS bundle from `@phcdevworks/spectre-ui`
+2. Verifies it is import-free
+3. Copies it to `assets/spectre-ui.css`
 
 ```bash
-# Development mode with watch
-npm run start
-
-# Production build
 npm run build
-
-# Lint JavaScript
-npm run lint
 ```
 
-The `sync-spectre-ui-css.mjs` script:
-1. Resolves the correct CSS bundle from `@phcdevworks/spectre-ui`
-2. Ensures the bundle is import-free (no `@import` statements)
-3. Copies it to `assets/spectre-ui.css`
+**WordPress never runs build steps at runtime.**
+All generated assets are committed for distribution.
 
 ### Project Structure
 
 ```
 spectre-ui-wordpress/
-├── spectre-ui-wordpress.php  # Main plugin file (hooks)
+├── spectre-ui-wordpress.php     # Plugin loader
 ├── assets/
-│   └── spectre-ui.css        # Synced CSS (generated, do not edit)
+│   └── spectre-ui.css           # Compiled Spectre CSS (generated)
 ├── build/
-│   └── index.js              # Compiled JavaScript (generated)
+│   └── index.js                 # JS build artifact (generated)
 ├── scripts/
-│   └── sync-spectre-ui-css.mjs  # CSS sync utility
+│   └── sync-spectre-ui-css.mjs  # CSS sync pipeline
 ├── src/
-│   └── index.js              # Block registration entry
+│   └── index.js                 # Minimal JS entry
 └── package.json
 ```
 
 ## Design Principles
 
-1. **Single source of truth** – All styles come from `@phcdevworks/spectre-ui`
-2. **No style duplication** – This plugin never defines CSS, only loads it
-3. **WordPress standards** – Follows WordPress coding standards and best practices
-4. **Cache-friendly** – Uses `filemtime()` for automatic cache invalidation
-5. **Editor parity** – Same styles in frontend and Gutenberg editor
+1. **Single source of truth** – All design lives in `@phcdevworks/spectre-ui`
+2. **No CSS duplication** – This plugin never defines `.sp-*` styles
+3. **Frontend only** – No admin or editor styling
+4. **Distribution-safe** – Import-free CSS, no Node assumptions
+5. **Adapter, not framework** – Thin by design
 
 ## Part of the Spectre Suite
 
 - **Spectre Tokens** – Design-token foundation
-- **Spectre UI** – Core styling layer
-- **Spectre Blocks** – WordPress block library (coming soon)
-- **Spectre Astro** – Astro integration
-- **Spectre 11ty** – Eleventy integration
-- **Spectre WordPress** – WordPress integration (this plugin)
+- **Spectre UI** – Core CSS + class contracts
+- **Spectre UI WordPress** – WordPress adapter (this plugin)
+- **Spectre UI Blocks** – Gutenberg blocks (separate plugin)
+- **Spectre Astro** – Astro adapter
 
-## Roadmap
+## Roadmap (High Level)
 
-- [ ] Custom Gutenberg blocks (Button, Card, Input, Badge, IconBox)
-- [ ] PHP helper functions (`spectre_button()`, `spectre_card()`)
-- [ ] Admin settings page (choose CSS bundles: full, components-only, base-only)
-- [ ] Shortcode support for classic editor
-- [ ] Theme compatibility layer
+- ✅ Frontend CSS adapter (this plugin)
+- 🔄 `spectre-ui-blocks` (Gutenberg blocks, separate repo)
+- [ ] Block patterns
+- [ ] Optional PHP helpers
+- [ ] Documentation & examples
 
-See **[ROADMAP.md](ROADMAP.md)** for detailed plans.
+See **[ROADMAP.md](https://github.com/phcdevworks/spectre-ui-wordpress/blob/main/ROADMAP.md)** for details.
 
 ## Contributing
 
 Issues and pull requests are welcome. Please test changes in a local WordPress environment (frontend + block editor) before submitting.
 
-For detailed contribution guidelines, see **[CONTRIBUTING.md](CONTRIBUTING.md)**.
+For detailed contribution guidelines, see **[CONTRIBUTING.md](https://github.com/phcdevworks/spectre-ui-wordpress/blob/main/CONTRIBUTING.md)**.
 
 ## License
 
-MIT © PHCDevworks — See **[LICENSE](LICENSE)** for details.
+MIT © PHCDevworks — see **[LICENSE](https://github.com/phcdevworks/spectre-ui-wordpress/blob/main/LICENSE)** for details.
 
 ---
 
