@@ -6,7 +6,7 @@
   --sp-surface-page: #f8fafc;
   --sp-surface-card: #ffffff;
   --sp-surface-input: #ffffff;
-  --sp-surface-overlay: rgba(15,23,42,0.6);
+  --sp-surface-overlay: rgba(15, 23, 42, 0.6);
   --sp-text-on-page-default: #0f172a;
   --sp-text-on-page-muted: #475569;
   --sp-text-on-page-meta: #94a3b8;
@@ -294,6 +294,7 @@
   --sp-animation-pulse-easing: cubic-bezier(0.4, 0, 0.2, 1);
   --sp-animation-pulse-keyframes: pulse;
 }
+
 :root[data-spectre-theme="dark"] {
   --sp-surface-page: #0f172a;
   --sp-surface-card: #1e293b;
@@ -328,6 +329,7 @@
   --sp-icon-box-icon-warning: #fbbf24;
   --sp-icon-box-icon-danger: #f87171;
 }
+
 @layer base {
 
   *,
@@ -394,6 +396,7 @@
     color: inherit;
   }
 }
+
 @layer components {
 
   :root {
@@ -884,8 +887,7 @@
     border-radius: var(--sp-component-badge-radius, var(--sp-radius-pill, 999px));
     font-family: var(--sp-component-badge-font, var(--sp-font-family-sans, system-ui));
     font-weight: var(--sp-component-badge-weight, var(--sp-font-sm-weight, 500));
-    padding: var(--sp-component-badge-padding-y-md, var(--sp-space-3xs, 0.1875rem))
-      var(--sp-component-badge-padding-x-md, var(--sp-space-sm, 0.75rem));
+    padding: var(--sp-component-badge-padding-y-md, var(--sp-space-3xs, 0.1875rem)) var(--sp-component-badge-padding-x-md, var(--sp-space-sm, 0.75rem));
     font-size: var(--sp-font-sm-size, 0.875rem);
     line-height: var(--sp-font-sm-line-height, 1.5rem);
     border: 1px solid transparent;
@@ -893,22 +895,19 @@
   }
 
   .sp-badge--sm {
-    padding: var(--sp-component-badge-padding-y-sm, var(--sp-space-4xs, 0.125rem))
-      var(--sp-component-badge-padding-x-sm, var(--sp-space-xs, 0.5rem));
+    padding: var(--sp-component-badge-padding-y-sm, var(--sp-space-4xs, 0.125rem)) var(--sp-component-badge-padding-x-sm, var(--sp-space-xs, 0.5rem));
     font-size: var(--sp-font-xs-size, 0.75rem);
     line-height: var(--sp-font-xs-line-height, 1.25rem);
   }
 
   .sp-badge--md {
-    padding: var(--sp-component-badge-padding-y-md, var(--sp-space-3xs, 0.1875rem))
-      var(--sp-component-badge-padding-x-md, var(--sp-space-sm, 0.75rem));
+    padding: var(--sp-component-badge-padding-y-md, var(--sp-space-3xs, 0.1875rem)) var(--sp-component-badge-padding-x-md, var(--sp-space-sm, 0.75rem));
     font-size: var(--sp-font-sm-size, 0.875rem);
     line-height: var(--sp-font-sm-line-height, 1.5rem);
   }
 
   .sp-badge--lg {
-    padding: var(--sp-component-badge-padding-y-lg, var(--sp-space-2xs, 0.25rem))
-      var(--sp-component-badge-padding-x-lg, var(--sp-space-md, 1rem));
+    padding: var(--sp-component-badge-padding-y-lg, var(--sp-space-2xs, 0.25rem)) var(--sp-component-badge-padding-x-lg, var(--sp-space-md, 1rem));
     font-size: var(--sp-font-md-size, 1rem);
     line-height: var(--sp-font-md-line-height, 1.75rem);
   }
@@ -964,8 +963,8 @@
     font-size: var(--sp-font-lg-size, 1.125rem);
   }
 
-  .sp-iconbox > svg,
-  .sp-iconbox > i {
+  .sp-iconbox>svg,
+  .sp-iconbox>i {
     width: 1em;
     height: 1em;
   }
@@ -995,6 +994,7 @@
     color: var(--sp-component-iconbox-info-text);
   }
 }
+
 @layer utilities {
   .sp-stack {
     display: flex;
