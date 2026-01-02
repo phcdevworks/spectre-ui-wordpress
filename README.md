@@ -2,7 +2,7 @@
 
 WordPress integration layer for the Spectre design system.
 
-> 📋 **[View Roadmap](https://github.com/phcdevworks/spectre-ui-wordpress/blob/main/ROADMAP.md)** | 🤝 **[Contributing Guide](CONTRIBUTING.md)** | 📝 **[Changelog](CHANGELOG.md)**
+> 📋 **[View Roadmap](https://github.com/phcdevworks/spectre-ui-wordpress/blob/main/ROADMAP.md)** | 🤝 **[Contributing Guide](https://github.com/phcdevworks/spectre-ui-wordpress/blob/main/CONTRIBUTING.md)** | 📝 **[Changelog](https://github.com/phcdevworks/spectre-ui-wordpress/blob/main/CHANGELOG.md)**
 
 ## Overview
 
