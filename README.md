@@ -70,6 +70,7 @@ Once activated, the plugin automatically enqueues:
 Frontend only via `wp_enqueue_scripts`
 
 All Spectre UI classes are now available in:
+
 - theme templates
 - custom PHP markup
 - custom blocks
@@ -96,6 +97,7 @@ All Spectre UI classes are now available in:
 All Spectre UI classes are available once the plugin is active, including:
 
 ### Buttons
+
 ```html
 <button class="sp-btn sp-btn--primary">Primary</button>
 <button class="sp-btn sp-btn--secondary">Secondary</button>
@@ -103,6 +105,7 @@ All Spectre UI classes are available once the plugin is active, including:
 ```
 
 ### Cards
+
 ```html
 <div class="sp-card sp-card--elevated">Elevated</div>
 <div class="sp-card sp-card--outline">Outline</div>
@@ -110,6 +113,7 @@ All Spectre UI classes are available once the plugin is active, including:
 ```
 
 ### Utilities
+
 ```html
 <div class="sp-stack sp-stack--md"></div>
 <div class="sp-container"></div>
@@ -148,13 +152,54 @@ spectre-ui-wordpress/
 └── package.json
 ```
 
-## Design Principles
+## Spectre Design Philosophy
+
+Spectre is a **specification-driven design system** built on three fundamental principles:
+
+### 1. Single Source of Truth
+
+Design values flow from one place: `@phcdevworks/spectre-tokens`. Colors, spacing, typography, shadows, and semantic roles are defined once in JSON, then consumed everywhere. No downstream package invents values.
+
+### 2. Separation of Concerns
+
+- **Tokens** define _meaning_ (what is `brand-500`? what is `surface.card`?)
+- **UI** defines _structure_ (how does `.sp-btn` work? what CSS makes a card?)
+- **Adapters** translate without duplicating (WordPress loads CSS; it never rewrites design)
+
+### 3. Framework Agnostic
+
+Spectre's core (`tokens` + `ui`) runs anywhere CSS and JavaScript run. Adapters (WordPress, Astro, 11ty) bridge runtimes without locking teams into frameworks.
+
+## Core Rules
+
+### For Tokens (@phcdevworks/spectre-tokens)
+
+- Tokens define **semantic meaning**, not UI behavior
+- Output formats: CSS variables (`--sp-*`), JS objects, Tailwind theme
+- Designers own `tokens/*.json`; engineers maintain `src/` transforms
+- Contrast targets and accessibility constraints are encoded at the token level
+
+### For UI (@phcdevworks/spectre-ui)
+
+- UI **consumes tokens**, never redefines design values
+- Ships: compiled CSS (`base`, `components`, `utilities`), type-safe recipes, Tailwind preset
+- Every CSS class has a matching recipe (`.sp-btn` → `getButtonClasses()`)
+- Literal values in CSS are fallbacks only; real values come from tokens
+
+### For Adapters (spectre-ui-wordpress, spectre-ui-astro, etc.)
+
+- Adapters **translate only**; they never invent CSS or design logic
+- WordPress: syncs and enqueues CSS; all styles come from `@phcdevworks/spectre-ui`
+- Astro/11ty: wraps Spectre UI classes in framework components
+- If it's a design token, it belongs in `spectre-tokens`. If it's a CSS class, it belongs in `spectre-ui`. If it's runtime integration, it belongs in the adapter.
+
+## WordPress Adapter Principles
 
 1. **Single source of truth** – All design lives in `@phcdevworks/spectre-ui`
 2. **No CSS duplication** – This plugin never defines `.sp-*` styles
-3. **Frontend only** – No admin or editor styling
-4. **Distribution-safe** – Import-free CSS, no Node assumptions
-5. **Adapter, not framework** – Thin by design
+3. **Frontend only** – No admin or editor styling (by design)
+4. **Distribution-safe** – Import-free CSS, no Node assumptions at runtime
+5. **Adapter, not framework** – Thin by design; translate, don't transform
 
 ## Part of the Spectre Suite
 
