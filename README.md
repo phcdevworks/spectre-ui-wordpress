@@ -248,9 +248,4 @@ MIT © PHCDevworks — see **[LICENSE](https://github.com/phcdevworks/spectre-ui
 
 ---
 
-## ❤️ Support Spectre
 
-If Spectre UI WordPress helps your workflow, consider sponsoring:
-
-- [GitHub Sponsors](https://github.com/sponsors/phcdevworks)
-- [Buy Me a Coffee](https://buymeacoffee.com/phcdevworks)
