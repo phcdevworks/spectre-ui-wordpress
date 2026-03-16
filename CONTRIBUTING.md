@@ -2,69 +2,25 @@
 
 Thanks for helping improve Spectre UI WordPress! This plugin is a WordPress adapter that loads the Spectre UI CSS bundle into WordPress sites (frontend and block editor). It ensures WordPress users can leverage the Spectre Design System without manually managing CSS files or imports.
 
-## Spectre Design Philosophy
+## 🏛️ Spectre Design Philosophy
 
-Spectre is a **specification-driven design system** built on three strict layers:
+Spectre is a **specification-driven design system** built on a strict hierarchy:
 
-### 1. @phcdevworks/spectre-tokens (Foundation)
+### 1. @phcdevworks/spectre-tokens (Layer 1 - DNA)
+- **Purpose**: Single source of truth for design values (colors, spacing, typography, semantic roles).
+- **Rules**: Defines semantic meaning, not UI behavior. Designers own JSON; engineers maintain transforms.
 
-**Purpose**: Single source of truth for design values (colors, surfaces, text roles, space, radii, shadows, etc.)
+### 2. @phcdevworks/spectre-ui (Layer 2 - The Blueprint)
+- **Purpose**: Converts tokens into real CSS and class recipes.
+- **Rules**: MUST consume tokens, MUST NOT redefine values. Every CSS selector has a matching recipe.
 
-**Exports**: CSS variables (`--sp-*`), TypeScript token object, Tailwind-compatible theme mappings
+### 3. Framework Adapters (Layer 3 - Delivery)
+- **Purpose**: Map Layer 2 to specific frameworks (WordPress, Astro, etc.).
+- **Rules**: Adapters never define styles or duplicate CSS.
 
-**Rules**:
-- Tokens define semantic meaning, not UI behavior
-- UI must never invent new colors or values
-- Designers own `tokens/*.json`; engineers maintain `src/` transforms
-- Contrast targets and accessibility constraints are encoded at the token level
+> **The Golden Rule**: Tokens define *meaning*. UI defines *structure*. Adapters define *delivery*.
 
-**Status**: v0.1.0 released with stable semantic roles (`surface.*`, `text.*`, `component.*`) and considered correct/locked
-
-### 2. @phcdevworks/spectre-ui (Framework-Agnostic UI Layer)
-
-**Purpose**: Converts tokens into real CSS and class recipes
-
-**Ships**:
-- `index.css` (canonical CSS bundle: tokens + base + components + utilities)
-- `base.css` (resets + globals)
-- `components.css` (`.sp-btn`, `.sp-card`, `.sp-input`, etc.)
-- `utilities.css` (`.sp-stack`, `.sp-container`, etc.)
-- Type-safe recipes: `getButtonClasses`, `getCardClasses`, `getInputClasses`
-
-**Rules**:
-- UI must consume tokens, not redefine design values
-- Literal values in CSS are fallbacks only
-- Every CSS selector has a matching recipe where applicable
-- Tailwind preset is optional and non-authoritative
-
-**Status**: v0.1.0 released, hardened and aligned to tokens
-
-### 3. @phcdevworks/spectre-ui-wordpress (WordPress Adapter)
-
-**Purpose**: Thin WordPress plugin wrapper around spectre-ui; automatically syncs and enqueues the Spectre UI CSS bundle
-
-**Key mechanism**:
-- `sync-spectre-ui-css.mjs` resolves import-free CSS from `@phcdevworks/spectre-ui` at build time
-- Copies to `assets/spectre-ui.css`
-- PHP hooks enqueue via `wp_enqueue_scripts` and `enqueue_block_editor_assets`
-
-**Rules**:
-- WordPress never defines styles, never duplicates CSS, never loads tokens directly
-- Plugin only synchronizes and loads CSS
-- All design values come from tokens, all CSS comes from spectre-ui
-
-**Status**: v0.1.0 with basic frontend and editor integration
-
-### Golden Rule (Non-Negotiable)
-
-**Tokens define meaning. UI defines structure. Adapters only translate.**
-
-WordPress never invents CSS or design values—it only loads what spectre-ui provides.
-
-- If it's a design token → belongs in `@phcdevworks/spectre-tokens`
-- If it's a CSS class or style → belongs in `@phcdevworks/spectre-ui`
-- If it's WordPress integration (hooks, blocks, PHP) → belongs here
-
+---
 ## Development Setup
 
 1. Clone the repository:

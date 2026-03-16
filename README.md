@@ -1,12 +1,23 @@
-# Spectre UI WordPress
+# @phcdevworks/spectre-ui-wordpress
 
-WordPress integration layer for the Spectre design system.
+### **The WordPress Adapter (Layer 3 of the Spectre 8-Layer Arsenal)**
 
-> 📋 **[View Roadmap](https://github.com/phcdevworks/spectre-ui-wordpress/blob/main/ROADMAP.md)** | 🤝 **[Contributing Guide](https://github.com/phcdevworks/spectre-ui-wordpress/blob/main/CONTRIBUTING.md)** | 📝 **[Changelog](https://github.com/phcdevworks/spectre-ui-wordpress/blob/main/CHANGELOG.md)**
+`@phcdevworks/spectre-ui-wordpress` is the official WordPress adapter for the Spectre design system. It handles the safe and predictable delivery of Spectre UI logic and styles into the WordPress environment.
 
-## Overview
+> 📋 **[View Roadmap](https://github.com/phcdevworks/spectre-ui-wordpress/blob/main/ROADMAP.md)** | 🤝 **[Contributing Guide](CONTRIBUTING.md)** | 📝 **[Changelog](CHANGELOG.md)** | 🏛️ **[Spectre Arsenal](https://github.com/phcdevworks)**
 
-`spectre-ui-wordpress` is the official WordPress adapter for the Spectre design system.
+---
+
+## 🏗️ Core Architecture
+
+This package operates as a pure **Adapter Layer**. It enqueues the compiled Spectre UI CSS on the frontend, making the entire arsenal of classes and utilities available to themes and plugins without a Node runtime.
+
+- 🔌 **Zero-Node Runtime**: Designed to work within standard WordPress constraints.
+- 📦 **Import-Free Bundle**: Delivers a pre-compiled CSS bundle optimized for the browser.
+- 🔄 **Build-Time Sync**: Automated pipeline to sync styles from `@phcdevworks/spectre-ui`.
+- ⚡ **Frontend Focused**: Intentionally lightweight, focusing on delivery rather than definition.
+
+---
 
 This plugin loads the compiled Spectre UI CSS on the frontend only, making Spectre's tokens, components, and utilities available to WordPress themes, templates, and companion plugins — without requiring Node tooling or runtime build steps in WordPress.
 
@@ -201,13 +212,19 @@ Spectre's core (`tokens` + `ui`) runs anywhere CSS and JavaScript run. Adapters 
 4. **Distribution-safe** – Import-free CSS, no Node assumptions at runtime
 5. **Adapter, not framework** – Thin by design; translate, don't transform
 
-## Part of the Spectre Suite
+---
 
-- **Spectre Tokens** – Design-token foundation
-- **Spectre UI** – Core CSS + class contracts
-- **Spectre UI WordPress** – WordPress adapter (this plugin)
-- **Spectre UI Blocks** – Gutenberg blocks (separate plugin)
-- **Spectre Astro** – Astro adapter
+## 🏛️ The Spectre Suite Hierarchy
+
+Spectre is built on a non-negotiable hierarchy to prevent style leakage and duplication:
+
+1.  **Layer 1: DNA** ([@phcdevworks/spectre-tokens](https://github.com/phcdevworks/spectre-tokens)) – The source of truth for all design values.
+2.  **Layer 2: Blueprint** ([@phcdevworks/spectre-ui](https://github.com/phcdevworks/spectre-ui)) – Translates tokens into CSS structure and recipes.
+3.  **Layer 3: Adapter (This Package)** – Thin bridges that map Layer 2 to specific frameworks.
+
+> **The Golden Rule**: Tokens define *meaning*. UI defines *structure*. Adapters define *delivery*.
+
+---
 
 ## Roadmap (High Level)
 
